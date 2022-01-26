@@ -24,10 +24,12 @@ php artisan make:model name
 php artisan make:model name -m (with migration)
 laravel always thinks the table is named like name + s. for example names. if you created a bad model name you can fix it with "protected $table = 'names';"
                                                                            your id column should always be named "id" but it doesnt "protected $primaryKey = 'other_id_name';
-$name = App\Name; or use App\Post;
-$name = Name::all(); 
-foreach($name as $n) {             
-    return $name->title; 
+// find/select
+use App\Name;
+foreach(Name::all() as $n) {             
+    echo $n->title . "   ///////////  " . $n->body . "<br>";
 }
-$post = Post::find(id);
-return $post->title;                                                         
+$name = Name::find(id);
+return $name->title;                                                         
+// where
+$name = Name::where('id', $id)->get();

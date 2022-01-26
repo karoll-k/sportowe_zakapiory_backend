@@ -37,19 +37,29 @@ Route::get('/databases/tests/delete', function(){
     return $deleted;
 });
 Route::get('/eloquent', function(){
-    $post = Post::all(); 
-    foreach($post as $n) {             
-        echo $n->title . "<br>";
+    foreach(Post::all() as $n) {             
+        echo $n->title . "   ///////////  " . $n->body . "<br>";
     } 
 });
-Route::get('/eloquent/find', function(){
-    $post = Post::find(3);
-    return $post->title;
+Route::get('/eloquent/find/{id}', function($id){
+    $post = Post::find($id);
+    return $post->body;
 });
-Route::get('/registerr/{a}/{b}/{c}', function($a,$b,$c) {
-    DB::insert('insert into users(name,email,password) values(?,?,?)', [$a, $b, $c]);
+Route::get('eloquent/where/{id}', function($id){
+    $post = Post::where('id', $id)->get();
+    return $post;
 });
-// temporary login system
+Route::get('/login', function() {
+    return view("partials/login");
+});
+Route::get('/register', function() {
+    return view("partials/register");
+});
+//Route::get('/registerr/{a}/{b}/{c}', function($a,$b,$c) {
+//    DB::insert('insert into users(name,email,password) values(?,?,?)', [$a, $b, $c]);
+//});
+// temporary login system 
+/*
 Route::get('/games', '\App\Http\Controllers\GamesController@index');
 
 Route::get('/games/create', '\App\Http\Controllers\GamesController@create');
@@ -65,4 +75,4 @@ Route::post('register', '\App\Http\Controllers\RegistrationController@store');
 
 Route::get('/login', '\App\Http\Controllers\SessionsController@create');
 Route::post('/login', '\App\Http\Controllers\SessionsController@store');
-Route::get('/logout', '\App\Http\Controllers\SessionsController@destroy');
+Route::get('/logout', '\App\Http\Controllers\SessionsController@destroy'); */
