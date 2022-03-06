@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Models\Post;
+use App\Http\Controllers\CustomAuthController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,12 +50,36 @@ Route::get('eloquent/where/{id}', function($id){
     $post = Post::where('id', $id)->get();
     return $post;
 });
-Route::get('/login', function() {
+/*Route::get('/login', function() {
     return view("partials/login");
-});
+}); 
 Route::get('/register', function() {
     return view("partials/register");
+});*/
+Route::get('eloquent/insert', function(){
+    $post = new Post;
+    $post->title = "new orm title";
+    $post->save();
 });
+Route::get('eloquent/create', function(){
+    Post::create(['title'=>"test", 'body'=>"test2"]);
+});
+Route::get('eloquent/update', function(){
+    Post::where('id',2)->where('is_admin',0)->update(['title'=>'new title','body'=>'new body content']);
+});
+Route::get('eloquent/delete', function(){
+    $post = Post::find(1);
+    $post -> delete();
+});
+Route::get('eloquent/delete2', function(){
+    Post::destroy(2); //number is id
+});
+Route::get('dashboard', [CustomAuthController::class, 'dashboard']); 
+Route::get('login', [CustomAuthController::class, 'index'])->name('login');
+Route::post('custom-login', [CustomAuthController::class, 'customLogin'])->name('login.custom'); 
+Route::get('registration', [CustomAuthController::class, 'registration'])->name('register-user');
+Route::post('custom-registration', [CustomAuthController::class, 'customRegistration'])->name('register.custom'); 
+Route::get('signout', [CustomAuthController::class, 'signOut'])->name('signout');
 //Route::get('/registerr/{a}/{b}/{c}', function($a,$b,$c) {
 //    DB::insert('insert into users(name,email,password) values(?,?,?)', [$a, $b, $c]);
 //});

@@ -33,3 +33,25 @@ $name = Name::find(id);
 return $name->title;                                                         
 // where
 $name = Name::where('id', $id)->get();
+//insert
+Route::get('eloquent/insert', function(){
+    $name = new name;
+    $name->thing = "new orm thing";
+    $name->save();
+});
+//update // new record                       // in controller -> protected $fillable = [ 'title', 'content' ];
+Route::get('eloquent/create', function(){
+    Post::create(['title'=>"test", 'body'=>"test2"]);
+});
+//update data
+Route::get('eloquent/update', function(){
+    Post::where('id',2)->where('is_admin',0)->update(['title'=>'new title','body'=>'new body content'])
+});
+//delete data
+Route::get('eloquent/delete', function(){
+    $post = Post::find(1);
+    $post -> delete();
+});
+Route::get('eloquent/delete2', function(){
+    Post::destroy(2); //number is id //multiple -> Post::destroy([2,3]);
+});
